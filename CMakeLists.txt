@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ARPScanner)
+project(ARPScanner VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB SOURCES "src/*.cpp")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+find_package(PCAP REQUIRED)
+include_directories(${PCAP_INCLUDE_DIRS})
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-find_package(Pcap REQUIRED)
-include_directories(${PCAP_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} ${PCAP_LIBRARY})
+add_executable(ARPScanner ${SOURCES})
+target_link_libraries(ARPScanner ${PCAP_LIBRARIES})
